@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ZYNEX GLAMOUR - Luxury Beauty Design System */
+
+@layer base {
+  :root {
+    /* Core Luxury Palette */
+    --background: 230 15% 6%;
+    --background-deep: 230 18% 4%;
+    --foreground: 0 0% 100%;
+
+    --card: 228 15% 9%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 228 15% 9%;
+    --popover-foreground: 0 0% 100%;
+
+    /* Gold Accent System */
+    --primary: 45 80% 45%;
+    --primary-foreground: 230 15% 6%;
+    --primary-glow: 45 100% 50%;
+
+    --secondary: 228 12% 14%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 228 12% 14%;
+    --muted-foreground: 210 10% 70%;
+
+    --accent: 45 80% 45%;
+    --accent-foreground: 230 15% 6%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 228 12% 18%;
+    --input: 228 12% 14%;
+    --ring: 45 80% 45%;
+
+    --radius: 0.75rem;
+
+    /* Luxury Effects */
+    --gold-gradient: linear-gradient(135deg, hsl(45 80% 45%) 0%, hsl(38 100% 55%) 50%, hsl(45 80% 45%) 100%);
+    --dark-gradient: linear-gradient(180deg, hsl(230 15% 6%) 0%, hsl(230 18% 4%) 100%);
+    --card-gradient: linear-gradient(145deg, hsl(228 15% 11%) 0%, hsl(228 15% 7%) 100%);
+    --glass-bg: hsla(228, 15%, 9%, 0.8);
+    --glass-border: hsla(45, 80%, 45%, 0.15);
+    
+    /* Shadows */
+    --shadow-glow: 0 0 30px hsla(45, 80%, 45%, 0.15);
+    --shadow-soft: 0 10px 40px -10px hsla(0, 0%, 0%, 0.5);
+    --shadow-card: 0 4px 30px -5px hsla(0, 0%, 0%, 0.4);
+
+    /* Sidebar */
+    --sidebar-background: 228 15% 7%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 45 80% 45%;
+    --sidebar-primary-foreground: 230 15% 6%;
+    --sidebar-accent: 228 12% 14%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 228 12% 18%;
+    --sidebar-ring: 45 80% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--dark-gradient);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+@layer components {
+  /* Gold Text Gradient */
+  .text-gold-gradient {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass Card Effect */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Gold Glow Border on Hover */
+  .glow-border {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glow-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, transparent, hsla(45, 80%, 45%, 0.4), transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .glow-border:hover::before {
+    opacity: 1;
+  }
+
+  /* Gold Shimmer Animation */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsla(45, 80%, 45%, 0.1) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* Luxury Button Styles */
+  .btn-luxury {
+    @apply relative overflow-hidden px-8 py-4 font-medium tracking-wider uppercase;
+    background: var(--gold-gradient);
+    color: hsl(var(--primary-foreground));
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 4px 15px hsla(45, 80%, 45%, 0.3);
+  }
+
+  .btn-luxury:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px hsla(45, 80%, 45%, 0.4);
+  }
+
+  .btn-luxury-outline {
+    @apply relative overflow-hidden px-8 py-4 font-medium tracking-wider uppercase;
+    background: transparent;
+    border: 1px solid hsl(var(--primary));
+    color: hsl(var(--primary));
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .btn-luxury-outline:hover {
+    background: hsla(45, 80%, 45%, 0.1);
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Section Divider */
+  .luxury-divider {
+    width: 80px;
+    height: 1px;
+    background: var(--gold-gradient);
+    margin: 0 auto;
+  }
+
+  /* Grain Overlay */
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  /* Image Zoom Container */
+  .img-zoom {
+    overflow: hidden;
+  }
+
+  .img-zoom img {
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .img-zoom:hover img {
+    transform: scale(1.08);
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background-deep));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px hsla(45, 80%, 45%, 0.2); }
+    50% { box-shadow: 0 0 40px hsla(45, 80%, 45%, 0.4); }
+  }
+}
