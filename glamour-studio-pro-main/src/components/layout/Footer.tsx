@@ -27,7 +27,6 @@ const footerLinks = {
     { name: "Terms of Service", href: "#contact" },
   ],
 };
-
 export const Footer = () => {
   return (
     <footer className="bg-secondary/50 border-t border-border">
