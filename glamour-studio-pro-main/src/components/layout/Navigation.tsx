@@ -1,36 +1,49 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
 const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Services", href: "/services" },
-  { name: "Gallery", href: "/gallery" },
-  { name: "Packages", href: "/packages" },
-  { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
+  { name: "Home", href: "#home" },
+  { name: "Services", href: "#services" },
+  { name: "Gallery", href: "#gallery" },
+  { name: "Packages", href: "#packages" },
+  { name: "About", href: "#about" },
+  { name: "Contact", href: "#contact" },
 ];
+
+const scrollTo = (href: string) => {
+  const el = document.querySelector(href);
+  if (el) el.scrollIntoView({ behavior: "smooth" });
+};
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
+  const [activeSection, setActiveSection] = useState("#home");
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      // Highlight active section based on scroll position
+      const sections = navLinks.map((l) => l.href);
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.querySelector(sections[i]);
+        if (el && el.getBoundingClientRect().top <= 120) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
+  const handleNavClick = (href: string) => {
+    scrollTo(href);
     setIsMobileMenuOpen(false);
-  }, [location.pathname]);
+  };
 
   return (
     <>
@@ -47,7 +60,7 @@ export const Navigation = () => {
         <nav className="container mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <Link to="/" className="relative z-10">
+            <button onClick={() => handleNavClick("#home")} className="relative z-10">
               <motion.h1
                 className="font-display text-2xl lg:text-3xl tracking-wide"
                 whileHover={{ scale: 1.02 }}
@@ -56,12 +69,12 @@ export const Navigation = () => {
                 <span className="text-gold-gradient">Monika</span>
                 <span className="text-foreground/90 ml-2 font-light">Studio</span>
               </motion.h1>
-            </Link>
+            </button>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-8">
               {navLinks.map((link, index) => {
-                const isActive = location.pathname === link.href;
+                const isActive = activeSection === link.href;
                 return (
                   <motion.div
                     key={link.name}
@@ -70,15 +83,14 @@ export const Navigation = () => {
                     transition={{ delay: 0.1 * index, duration: 0.5 }}
                     className="relative"
                   >
-                    <Link
-                      to={link.href}
+                    <button
+                      onClick={() => handleNavClick(link.href)}
                       className={`text-xs tracking-[0.2em] uppercase font-medium transition-colors duration-300 py-2 ${
                         isActive ? "text-primary" : "text-foreground/70 hover:text-primary"
                       }`}
                     >
                       {link.name}
-                    </Link>
-                    {/* Active indicator */}
+                    </button>
                     {isActive && (
                       <motion.div
                         layoutId="activeIndicator"
@@ -96,8 +108,8 @@ export const Navigation = () => {
             {/* CTA Button */}
             <div className="hidden lg:block">
               <MagneticButton>
-                <Button variant="luxury" size="luxuryDefault" asChild>
-                  <Link to="/contact">Book Now</Link>
+                <Button variant="luxury" size="luxuryDefault" onClick={() => handleNavClick("#contact")}>
+                  Book Now
                 </Button>
               </MagneticButton>
             </div>
@@ -148,7 +160,7 @@ export const Navigation = () => {
           >
             <div className="flex flex-col items-center justify-center h-full gap-8">
               {navLinks.map((link, index) => {
-                const isActive = location.pathname === link.href;
+                const isActive = activeSection === link.href;
                 return (
                   <motion.div
                     key={link.name}
@@ -156,14 +168,14 @@ export const Navigation = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
                   >
-                    <Link
-                      to={link.href}
+                    <button
+                      onClick={() => handleNavClick(link.href)}
                       className={`text-2xl font-display tracking-wider transition-colors ${
                         isActive ? "text-primary" : "text-foreground hover:text-primary"
                       }`}
                     >
                       {link.name}
-                    </Link>
+                    </button>
                   </motion.div>
                 );
               })}
@@ -172,8 +184,8 @@ export const Navigation = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.4 }}
               >
-                <Button variant="luxury" size="luxuryLg" asChild>
-                  <Link to="/contact">Book Now</Link>
+                <Button variant="luxury" size="luxuryLg" onClick={() => handleNavClick("#contact")}>
+                  Book Now
                 </Button>
               </motion.div>
             </div>
